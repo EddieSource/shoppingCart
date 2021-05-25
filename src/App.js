@@ -6,6 +6,17 @@ import CartContainer from "./components/CartContainer";
 import cartItems from "./cart-items";
 // redux stuff
 
+// store - stores data, think of state
+// reducer - function that used to update store
+import { createStore } from 'redux'
+
+function reducer(){
+  console.log("reducer ready to work")
+}
+
+const store = createStore(reducer); 
+
+
 function App() {
   // cart setup
 
