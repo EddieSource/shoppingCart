@@ -1,9 +1,13 @@
 import React from "react";
 import CartItem from "./CartItem";
 import { connect } from "react-redux"
-import { CLEAR_CART } from "../actions.js"
+import { CLEAR_CART, GET_TOTAL} from "../actions.js"
 
-const CartContainer = ({ cart = [], total, dispatch }) => {
+const CartContainer = ({ cart = [], total_price, dispatch }) => {
+  // run each time when the component is rerendered
+  React.useEffect(()=>{
+    dispatch({ type: GET_TOTAL })
+  })
   if (cart.length === 0) {
     return (
       <section className="cart">
@@ -32,7 +36,7 @@ const CartContainer = ({ cart = [], total, dispatch }) => {
         <hr />
         <div className="cart-total">
           <h4>
-            total <span>$0.00</span>
+            total <span>${total_price}</span>
           </h4>
         </div>
         <button className="btn clear-btn" onClick={()=>dispatch({type:CLEAR_CART})}>clear cart</button>
@@ -43,7 +47,7 @@ const CartContainer = ({ cart = [], total, dispatch }) => {
 
 //map state from the store to the data input of the component
 const mapStateToProps = (store) => {
-  return {cart: store.cart, total: store.total}
+  return {cart: store.cart, total_price: store.total_price}
 }
 
 //The connect() function connects a React component to a Redux store. 

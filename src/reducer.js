@@ -1,5 +1,5 @@
 import { bindActionCreators } from 'redux'
-import { DECREASE, INCREASE, CLEAR_CART, REMOVE } from './actions' 
+import { DECREASE, INCREASE, CLEAR_CART, REMOVE, GET_TOTAL } from './actions' 
 
 // reducer
 function reducer(state, action){
@@ -43,6 +43,21 @@ function reducer(state, action){
                 ...state, 
                 cart: state.cart.filter((cartItem)=>cartItem.id !== action.payload.id)
             }
+        
+        case GET_TOTAL: 
+            let { total_price, total_amount } = state.cart.reduce((cartTotal, cartItem)=>{
+                const {price, amount} = cartItem    //extract price and amount field from carItem
+                cartTotal.total_amount += amount
+                cartTotal.total_price += price * amount
+                return cartTotal
+            }, {
+                total_price:0, 
+                total_amount:0
+            })
+            total_price = parseFloat(total_price.toFixed(2))
+            // return {...state, total: total, amount: amount}
+            return {...state, total_price, total_amount}
+
 
         default: // if nothing happened return original state
             return state
